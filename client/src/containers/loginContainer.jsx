@@ -7,7 +7,6 @@ class LoginContainer extends React.Component {
   }
 
   render() {
-
     const client_id = "oauthclient_00009RQPsv5sYsKREbaUDp"
     const redirect_uri = "http://localhost/authorised"
     const state = "fajfljahiofosanlfo7878989fa9s6af76ga"

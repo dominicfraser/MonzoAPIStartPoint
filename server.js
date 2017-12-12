@@ -32,7 +32,8 @@ console.log('in whoami')
       }
       return 
     } else {
-      console.log(body)
+      console.log('whoami body: ', body)
+      res.send(body) 
     }
   })
 })
