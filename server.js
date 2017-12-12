@@ -17,9 +17,29 @@ app.use(session({
     secret: process.env.SESSION_SECRET
 }))
 
+app.get('/whoami', (req, res) => {
+console.log('in whoami')
+  
+  request.get('https://api.monzo.com/ping/whoami', {
+      'auth': {
+          'bearer': req.session.access_token
+        }
+      }, (error, response, body) => {
+    if (response.statusCode !== 200) {
+      console.log('Not 200')
+      if (error) {
+        console.log('Error: ', error)
+      }
+      return 
+    } else {
+      console.log(body)
+    }
+  })
+})
+
 app.get('/authorised', (req, res) => {
   console.log("sending POST request to exchange authorization code for access token")
-  
+
   request.post(
       'https://api.monzo.com/oauth2/token',
       { form: {
