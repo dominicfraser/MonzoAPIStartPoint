@@ -1,4 +1,5 @@
 import React from 'react'
+import RequestHelper from '../helpers/requestHelper'
 
 
 class AuthContainer extends React.Component {
@@ -7,6 +8,8 @@ class AuthContainer extends React.Component {
     this.state = {
       me: { one: "two" } 
     }
+
+    this.requestHelper = new RequestHelper()
   }
 
   render() {
@@ -15,29 +18,17 @@ class AuthContainer extends React.Component {
 
     return (
       <div>
-        <p>authorised</p>
+        <p>account access authorised</p>
         <pre>{jsontest}</pre>
       </div>
       )
-    
+
   }
 
   componentDidMount(){
-    this.makeGetRequest("http://localhost/whoami", (results) => {
+    this.requestHelper.makeGetRequest("http://localhost/whoami", (results) => {
       this.setState({ me: { results }})
     } )
-  }
-
-  makeGetRequest(url, callback){
-    const request = new XMLHttpRequest()
-    request.open('GET', url)
-    request.addEventListener('load', function () {
-      if (request.status !== 200) return
-      const jsonString = request.responseText
-      const resultsObject = JSON.parse(jsonString)
-      callback(resultsObject)
-    })
-    request.send()
   }
 
 }
