@@ -20,6 +20,7 @@ class AuthContainer extends React.Component {
       <div>
         <p>account access authorised</p>
         <pre>{jsontest}</pre>
+        <a href={"/account"}>Go to account</a>
       </div>
       )
 
