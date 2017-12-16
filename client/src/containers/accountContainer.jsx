@@ -5,7 +5,8 @@ class AccountContainer extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      balance: "balance not retrieved"
+      balance: "balance not retrieved",
+      transactions: "transactions not retrieved"
     }
 
     this.requestHelper = new RequestHelper()
@@ -13,11 +14,13 @@ class AccountContainer extends React.Component {
 
   render() {
     let balanceDisplay = <p>Balance: {this.state.balance}</p>
+    let transactionsDisplay = JSON.stringify(this.state.transactions, null, 2)
   
     return(
       <div>
       <h1>Account</h1>
       {balanceDisplay}
+      <pre>{transactionsDisplay}</pre>
       </div>
       )
   }
@@ -25,10 +28,14 @@ class AccountContainer extends React.Component {
   componentDidMount(){
     this.requestHelper.makeGetRequest("http://localhost/currentaccount", (results) => {
       console.log('got current account id')
+
       this.requestHelper.makeGetRequest("http://localhost/balance", (results) => {
         const balance = results.balance / 100
         this.setState({ balance: balance })
-        console.log(this.state.balance)
+
+        this.requestHelper.makeGetRequest("http://localhost/transactions", (results) => {
+          this.setState({ transactions: results.transactions })
+        })
       })
     })
   }

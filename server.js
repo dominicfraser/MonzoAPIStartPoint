@@ -18,7 +18,7 @@ app.use(session({
 }))
 
 app.get('/whoami', (req, res) => {
-console.log('whoami server request')  
+  console.log('whoami server request')  
   request.get('https://api.monzo.com/ping/whoami', {
       'auth': {
           'bearer': req.session.access_token
@@ -38,7 +38,7 @@ console.log('whoami server request')
 })
 
 app.get('/currentaccount', (req, res) => {
-console.log('currentaccount server request')  
+  console.log('currentaccount server request')  
   request.get('https://api.monzo.com/accounts?account_type=uk_retail', {
       'auth': {
           'bearer': req.session.access_token
@@ -51,7 +51,6 @@ console.log('currentaccount server request')
       }
       return 
     } else {
-      console.log('currentaccount body: ', body)
       const bodyObj = JSON.parse(body)
 
       req.session.current_acc_id = bodyObj.accounts[0].id
@@ -65,10 +64,8 @@ console.log('currentaccount server request')
 })
 
 app.get('/balance', (req, res) => {
-console.log('balance server request')
-
+  console.log('balance server request')
   const url = 'https://api.monzo.com/balance?account_id=' + req.session.current_acc_id
-
   request.get(url, {
       'auth': {
           'bearer': req.session.access_token
@@ -81,7 +78,26 @@ console.log('balance server request')
       }
       return 
     } else {
-      console.log('balance body: ', body)
+      res.send(body) 
+    }
+  })
+})
+
+app.get('/transactions', (req, res) => {
+  console.log('transactions server request')
+  const url = 'https://api.monzo.com/transactions?account_id=' + req.session.current_acc_id + "&limit=10"
+  request.get(url, {
+      'auth': {
+          'bearer': req.session.access_token
+        }
+      }, (error, response, body) => {
+    if (response.statusCode !== 200) {
+      console.log('Not 200')
+      if (error) {
+        console.log('Error: ', error)
+      }
+      return 
+    } else {
       res.send(body) 
     }
   })
