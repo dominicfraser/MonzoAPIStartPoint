@@ -56,17 +56,19 @@ console.log('currentaccount server request')
 
       req.session.current_acc_id = bodyObj.accounts[0].id
 
-console.log('id: ',req.session.current_acc_id)
-
+      //seems that session is only automatically saved if you send data back,
+      //otherwise you must call .save() to avoid undefined
+      req.session.save((error) => {
+              console.log('session saved, error: ' + error);
+          });
     }
   })
 })
 
 app.get('/balance', (req, res) => {
 console.log('balance server request')
-console.log('id: ', req.session.current_acc_id)
+
   const url = 'https://api.monzo.com/balance?account_id=' + req.session.current_acc_id
-console.log(url)
 
   request.get(url, {
       'auth': {
