@@ -56,11 +56,10 @@ console.log('currentaccount server request')
 
       req.session.current_acc_id = bodyObj.accounts[0].id
 
+      res.send({ gotId: true })
       //seems that session is only automatically saved if you send data back,
       //otherwise you must call .save() to avoid undefined
-      req.session.save((error) => {
-              console.log('session saved, error: ' + error);
-          });
+      // req.session.save()
     }
   })
 })

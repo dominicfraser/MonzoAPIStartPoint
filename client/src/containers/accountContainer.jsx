@@ -9,20 +9,14 @@ class AccountContainer extends React.Component {
     }
 
     this.requestHelper = new RequestHelper()
-    this.getBalanceClick = this.getBalanceClick.bind(this)
   }
 
   render() {
-    let balanceDisplay = <p></p>
-
-    if(this.state.balance != "balance not retrieved"){
-      balanceDisplay = <p>Balance: {this.state.balance}</p>
-    }
+    let balanceDisplay = <p>Balance: {this.state.balance}</p>
   
     return(
       <div>
       <h1>Account</h1>
-      <button onClick={this.getBalanceClick}>Get Current Account Balance</button>
       {balanceDisplay}
       </div>
       )
@@ -31,14 +25,11 @@ class AccountContainer extends React.Component {
   componentDidMount(){
     this.requestHelper.makeGetRequest("http://localhost/currentaccount", (results) => {
       console.log('got current account id')
-    })
-  }
-
-  getBalanceClick(){
-    this.requestHelper.makeGetRequest("http://localhost/balance", (results) => {
-      const balance = results.balance / 100
-      this.setState({ balance: balance })
-      console.log(this.state.balance)
+      this.requestHelper.makeGetRequest("http://localhost/balance", (results) => {
+        const balance = results.balance / 100
+        this.setState({ balance: balance })
+        console.log(this.state.balance)
+      })
     })
   }
 
