@@ -26,33 +26,22 @@ class AccountContainer extends React.Component {
   }
 
   componentDidMount(){
-    // this.requestHelper.makeGetRequest("http://localhost/currentaccount", (results) => {
-    //   console.log('got current account id')
-
-    //   this.requestHelper.makeGetRequest("http://localhost/balance", (results) => {
-    //     const balance = results.balance / 100
-    //     this.setState({ balance: balance })
-
-    //     this.requestHelper.makeGetRequest("http://localhost/transactions", (results) => {
-    //       this.setState({ transactions: results.transactions })
-    //     })
-    //   })
-    // })
-
 //https://stackoverflow.com/questions/30008114/how-do-i-promisify-native-xhr#30008115
-    this.requestHelper.makePromiseGetRequest("http://localhost/currentaccount")
+//TODO replace with fetch
+
+    this.requestHelper.makePromiseGetRequest("http://localhost/api/currentaccount")
       .then(() => {console.log('got current account id')})
       .then(() => { 
-        return this.requestHelper.makePromiseGetRequest("http://localhost/balance")
+        return this.requestHelper.makePromiseGetRequest("http://localhost/api/balance")
       })
       .then((results) => {
         const balance = results.balance / 100
         this.setState({ balance: balance })
       })
       .then(() => {
-        return this.requestHelper.makePromiseGetRequest("http://localhost/transactions")
+        return this.requestHelper.makePromiseGetRequest("http://localhost/api/transactions")
       })
-      .then((results) => {
+      .then( results => {
         this.setState({ transactions: results.transactions })
       })
       .catch( err => console.log('err', err))

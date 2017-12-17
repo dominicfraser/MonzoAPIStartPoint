@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 class LoginContainer extends React.Component {
   constructor(props){
     super(props)
@@ -9,7 +8,7 @@ class LoginContainer extends React.Component {
   render() {
     const client_id = "oauthclient_00009RQPsv5sYsKREbaUDp"
     const redirect_uri = "http://localhost/authorised"
-    const state = "fajfljahiofosanlfo7878989fa9s6af76ga"
+    const state = "fajfljahiofosanlfo7878989fa9s6af76ga" //TODO generation of state and accessing via env on client side
 
     return (
       <div><a href={"https://auth.getmondo.co.uk/?client_id=" + client_id + "&redirect_uri=" + redirect_uri + "&response_type=code&state=" + state}>Login to Monzo</a>

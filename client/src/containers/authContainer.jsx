@@ -6,7 +6,7 @@ class AuthContainer extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      me: { one: "two" } 
+      me: "whoami not loaded" 
     }
 
     this.requestHelper = new RequestHelper()
@@ -18,7 +18,7 @@ class AuthContainer extends React.Component {
 
     return (
       <div>
-        <p>account access authorised</p>
+        <p>Account access authorised</p>
         <pre>{jsontest}</pre>
         <a href={"/account"}>Go to account</a>
       </div>
@@ -27,7 +27,7 @@ class AuthContainer extends React.Component {
   }
 
   componentDidMount(){
-    this.requestHelper.makeGetRequest("http://localhost/whoami", (results) => {
+    this.requestHelper.makeGetRequest("http://localhost/api/whoami", (results) => {
       this.setState({ me: { results }})
     } )
   }
